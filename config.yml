@@ -1,0 +1,182 @@
+# Konfigurasi Sveltia CMS - Admin Redaksi Lensa Hukum Banyuwangi
+backend:
+  name: github
+  # Editorial workflow dilakukan melalui branch/PR GitHub; hak akses mengikuti team repository.
+  repo: lensahukumbanyuwangiofficial-lgtm/lensa-hukum-banyuwangi   # repository resmi
+  branch: main
+
+media_folder: uploads        # foto yang diunggah disimpan di folder ini
+public_folder: /uploads      # alamat foto di situs
+
+site_url: https://GANTI-DOMAIN-ANDA
+display_url: https://GANTI-DOMAIN-ANDA
+
+collections:
+  - name: berita
+    label: Berita
+    label_singular: Berita
+    folder: content/berita
+    format: json
+    extension: json
+    create: true
+    identifier_field: judul
+    slug: "{{slug}}"
+    summary: "{{judul}} ({{status}})"
+    sortable_fields: [tanggal, judul, status]
+    view_filters:
+      - { label: Terbit, field: status, pattern: terbit }
+      - { label: Draf, field: status, pattern: draf }
+    fields:
+      - { name: judul, label: Judul, widget: string }
+      - label: Status
+        name: status
+        widget: select
+        options:
+          - { label: Draf (belum tayang), value: draf }
+          - { label: Terbit (tayang di situs), value: terbit }
+        default: draf
+      - { name: tanggal, label: Tanggal terbit, widget: datetime, date_format: "YYYY-MM-DD", time_format: "HH:mm", format: "YYYY-MM-DDTHH:mm" }
+      - label: Kategori
+        name: kategori
+        widget: relation
+        collection: pengaturan
+        file: kategori
+        search_fields: ["kategori.*.nama"]
+        value_field: "kategori.*.slug"
+        display_fields: ["kategori.*.nama"]
+        multiple: true
+        min: 1
+        hint: Kategori pertama menjadi kategori utama berita.
+      - { name: ringkasan, label: Teks pembuka (lead), widget: text, hint: "1-2 kalimat; tampil di bawah judul pada halaman berita." }
+      - { name: kutipan, label: Ringkasan untuk kartu berita, widget: text, required: false, hint: "Jika kosong, memakai teks pembuka." }
+      - { name: gambar, label: Foto utama, widget: image, required: false, hint: "Gunakan foto milik sendiri atau berizin." }
+      - { name: alt, label: Keterangan foto (untuk aksesibilitas), widget: string, required: false }
+      - { name: penulis, label: Penulis, widget: string, default: Redaksi }
+      - { name: isi, label: Isi berita, widget: markdown }
+      - { name: utama, label: Jadikan berita utama (sorotan beranda), widget: boolean, default: false, required: false }
+      - { name: pilihan, label: Tampilkan di Pilihan redaksi, widget: boolean, default: false, required: false }
+      - { name: sumber, label: Sumber atau rujukan, widget: string, required: false, hint: "Cantumkan sumber informasi/rujukan secara transparan. Jangan menyalin naskah media lain." }
+      - { name: catatan, label: Catatan redaksi (opsional, tampil di akhir berita), widget: text, required: false }
+
+
+  - name: video
+    label: Video Redaksi
+    label_singular: Video
+    folder: content/video
+    format: json
+    extension: json
+    create: true
+    identifier_field: judul
+    slug: "{{slug}}"
+    summary: "{{judul}} ({{status}})"
+    sortable_fields: [tanggal, judul, status]
+    view_filters:
+      - { label: Tayang, field: status, pattern: terbit }
+      - { label: Draf, field: status, pattern: draf }
+    fields:
+      - { name: judul, label: Judul video, widget: string }
+      - { name: status, label: Status publikasi, widget: select, options: [{ label: Draf, value: draf }, { label: Terbit, value: terbit }], default: draf }
+      - { name: tanggal, label: Tanggal publikasi, widget: datetime, date_format: "YYYY-MM-DD", time_format: "HH:mm", format: "YYYY-MM-DDTHH:mm" }
+      - { name: kategori, label: Kategori video, widget: string, default: "Video Redaksi" }
+      - { name: deskripsi, label: Deskripsi video, widget: text }
+      - name: file_video
+        label: Unggah file video (MP4/WebM)
+        widget: file
+        required: false
+        media_folder: uploads/video
+        public_folder: /uploads/video
+        hint: "Unggah video milik redaksi. MP4 H.264 disarankan."
+      - name: thumbnail
+        label: Thumbnail
+        widget: image
+        required: false
+        media_folder: uploads/video/thumbnail
+        public_folder: /uploads/video/thumbnail
+      - { name: url_embed, label: URL video eksternal (opsional), widget: string, required: false, hint: "Isi jika video dihosting di YouTube/platform resmi." }
+      - { name: penulis, label: Reporter/Videografer, widget: string, default: Redaksi }
+      - { name: sumber, label: Sumber/keterangan hak penggunaan, widget: string, required: false }
+
+
+  - name: epaper
+    label: E-Paper / Edisi Digital
+    label_singular: Edisi
+    folder: content/epaper
+    format: json
+    extension: json
+    create: true
+    identifier_field: judul
+    slug: "{{slug}}"
+    summary: "Edisi {{nomor_edisi}} — {{judul}} ({{status}})"
+    sortable_fields: [tanggal, nomor_edisi, status]
+    fields:
+      - { name: nomor_edisi, label: Nomor edisi, widget: string }
+      - { name: judul, label: Judul edisi, widget: string }
+      - { name: tanggal, label: Tanggal terbit, widget: date }
+      - { name: status, label: Status, widget: select, options: [{ label: Draf, value: draf }, { label: Terbit, value: terbit }], default: draf }
+      - { name: editor, label: Editor, widget: string, required: false }
+      - { name: pengantar, label: Pengantar edisi, widget: text }
+      - { name: artikel, label: Pilih slug artikel terbit, widget: list, field: { name: slug, label: Slug artikel, widget: string } }
+
+  - name: halaman
+    label: Halaman
+    files:
+      - name: tentang
+        label: Tentang Kami
+        file: content/halaman/tentang.json
+        format: json
+        fields: &halaman_fields
+          - { name: judul, label: Judul, widget: string }
+          - { name: lead, label: Kalimat pembuka, widget: text }
+          - { name: isi, label: Isi, widget: markdown, required: false }
+          - { name: catatan, label: Catatan (opsional, tampil di kotak kuning), widget: text, required: false }
+      - name: redaksi
+        label: Pedoman Redaksi
+        file: content/halaman/redaksi.json
+        format: json
+        fields: *halaman_fields
+      - name: kontak
+        label: Kontak Redaksi
+        file: content/halaman/kontak.json
+        format: json
+        fields: *halaman_fields
+
+  - name: pengaturan
+    label: Pengaturan
+    files:
+      - name: situs
+        label: Info situs
+        file: content/pengaturan/situs.json
+        format: json
+        fields:
+          - { name: nama_situs, label: Nama situs, widget: string }
+          - { name: site_url, label: URL resmi situs, widget: string, required: false, hint: "Contoh: https://lensahukumbanyuwangi.id. Isi setelah domain aktif." }
+          - { name: tagline, label: Slogan, widget: string }
+          - { name: email, label: Email redaksi, widget: string }
+          - { name: whatsapp, label: WhatsApp redaksi, widget: string, required: false }
+          - { name: alamat, label: Alamat kantor, widget: text, required: false }
+          - { name: wilayah, label: Wilayah liputan, widget: string, required: false }
+          - { name: analytics_code, label: Kode GoatCounter (opsional), widget: string, required: false, hint: "Isi subdomain GoatCounter tanpa .goatcounter.com. Statistik global baru aktif setelah akun GoatCounter dibuat." }
+      - name: kategori
+        label: Kategori (rubrik)
+        file: content/pengaturan/kategori.json
+        format: json
+        fields:
+          - label: Kategori
+            name: kategori
+            widget: list
+            label_singular: kategori
+            summary: "{{fields.nama}}"
+            fields:
+              - { name: nama, label: Nama kategori, widget: string }
+              - { name: slug, label: Alamat (huruf kecil tanpa spasi), widget: string, pattern: ["^[a-z0-9-]+$", "Hanya huruf kecil, angka, dan tanda hubung"], hint: "Contoh: pendidikan. Jangan diubah setelah dipakai pada berita." }
+              - { name: deskripsi, label: Deskripsi singkat, widget: string, required: false }
+      - name: live
+        label: Pengaturan Live Streaming
+        file: content/pengaturan/live.json
+        format: json
+        fields:
+          - { name: judul, label: Judul siaran, widget: string }
+          - { name: status, label: Status, widget: select, options: [{ label: Tidak tayang, value: draf }, { label: Tayang, value: terbit }], default: draf }
+          - { name: deskripsi, label: Deskripsi, widget: text }
+          - { name: url_embed, label: URL embed YouTube/Facebook, widget: string, required: false }
+          - { name: jadwal, label: Jadwal siaran, widget: datetime, required: false }

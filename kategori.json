@@ -1,0 +1,34 @@
+{
+  "kategori": [
+    {
+      "slug": "hukum",
+      "nama": "Hukum",
+      "deskripsi": "Penegakan hukum, hak warga, dan literasi hukum."
+    },
+    {
+      "slug": "kriminal",
+      "nama": "Kriminal",
+      "deskripsi": "Peristiwa pidana dengan prinsip praduga tak bersalah."
+    },
+    {
+      "slug": "pemerintahan",
+      "nama": "Pemerintahan",
+      "deskripsi": "Kebijakan, anggaran, dan pelayanan publik daerah."
+    },
+    {
+      "slug": "peristiwa",
+      "nama": "Peristiwa",
+      "deskripsi": "Kabar dan dinamika masyarakat Banyuwangi."
+    },
+    {
+      "slug": "nasional",
+      "nama": "Nasional",
+      "deskripsi": "Perkembangan hukum dan pers tingkat nasional."
+    },
+    {
+      "slug": "opini",
+      "nama": "Opini",
+      "deskripsi": "Sudut pandang dan gagasan seputar hukum dan publik."
+    }
+  ]
+}

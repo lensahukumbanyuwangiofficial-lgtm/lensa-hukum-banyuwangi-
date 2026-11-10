@@ -1,0 +1,24 @@
+LAPORAN PENGUJIAN — LENSA HUKUM BANYUWANGI NEWSROOM V5
+Tanggal pengujian: 10 November 2026
+Paket: konsolidasi dari edisi editorial, menu lengkap, konten berita/video, Video Redaksi CMS, Newsroom Pro, dan E-Paper.
+
+HASIL:
+1. Python build.py: PASS — 9 berita, 6 rubrik.
+2. Konfigurasi admin/config.yml: PASS — YAML valid; koleksi Berita, Video Redaksi, E-Paper, Halaman, Pengaturan tersedia.
+3. Halaman publik: PASS — beranda, kategori, artikel, cari, tentang, redaksi, kontak, video, live, epaper, newsroom, studio-video, admin, 404.
+4. Referensi internal HTML: PASS — 0 tautan relatif rusak pada hasil build.
+5. PDF E-Paper: PASS — epaper/edisi-001.pdf berhasil dibuat; header file valid (%PDF-).
+6. Netlify config: PASS — perintah build memasang requirements.txt (ReportLab) lalu menjalankan build.py.
+7. Video Redaksi: PASS — jalur konten video dan tampilan halaman/beranda diuji dengan fixture video sementara; fixture uji dihapus setelah tes.
+8. Live: PASS — halaman dibuat; embed hanya menerima prefix YouTube embed/Facebook plugin yang diizinkan.
+
+BATASAN / BELUM DAPAT DITES TANPA AKUN EKSTERNAL:
+- Login GitHub CMS dan hak akses tim memerlukan repository/akun pemilik.
+- Workflow persetujuan PR memerlukan GitHub Organization, Teams, dan branch protection yang benar-benar diaktifkan.
+- Statistik GoatCounter belum aktif sebelum subdomain akun dimasukkan.
+- Live streaming memerlukan URL embed yang sah dan izin penyelenggara/pengadilan.
+- Upload MP4 besar melalui GitHub tidak disarankan; gunakan video CDN/hosting untuk produksi rutin.
+- Pemotongan/kompresi browser tergantung dukungan MediaRecorder/captureStream perangkat.
+
+CATATAN:
+Build lokal dan audit berkas tidak sama dengan uji deploy pada domain publik. Lakukan smoke test setelah deploy Netlify.

@@ -1,0 +1,12 @@
+PANDUAN SINGKAT VIDEO REDAKSI
+Akses: /admin
+Menu CMS: Video Redaksi
+1. New Video.
+2. Isi judul, deskripsi, tanggal, kategori, reporter.
+3. Upload MP4/WebM dan thumbnail.
+4. Status Draf untuk review; Terbit untuk tampil.
+5. Publish/commit. Tunggu Netlify selesai deploy.
+Hasil tayang: halaman depan bagian Video Terbaru dan /video.html.
+
+Disarankan MP4 H.264/AAC, 720p atau 1080p. Video besar akan membebani repository GitHub dan deploy. Untuk produksi video rutin, gunakan hosting/CDN video khusus dan masukkan URL embed yang sah.
+Periksa hak cipta, izin rekaman, privasi, dan perlindungan anak sebelum publikasi.

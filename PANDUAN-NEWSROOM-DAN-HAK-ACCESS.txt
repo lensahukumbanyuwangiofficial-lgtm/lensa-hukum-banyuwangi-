@@ -1,0 +1,31 @@
+PANDUAN AKUN DAN HAK AKSES REDAKSI
+CMS ini menggunakan GitHub sebagai backend. Pemisahan peran dijalankan dengan GitHub Organization/Teams dan alur Editorial Workflow (Pull Request), bukan dengan password lokal buatan sendiri.
+
+Struktur yang disarankan:
+1. Pemimpin Redaksi — GitHub Team "pemimpin-redaksi": Admin repository/organization. Menetapkan kebijakan, menyetujui rilis final, mengelola akses anggota. Batasi maksimal 1-2 orang.
+2. Editor — GitHub Team "editor": Write/Triage sesuai kebutuhan. Mengedit naskah dan mengajukan/menyetujui perubahan sesuai branch protection. Idealnya editor tidak memiliki hak Admin.
+3. Wartawan — GitHub Team "wartawan": Write melalui branch/PR. Mengunggah berita/video sebagai draf dan mengajukan untuk review. Jangan berikan Admin.
+4. Kontributor eksternal — tanpa akses repository; kirim materi melalui kanal redaksi resmi.
+
+PENYETELAN WAJIB DI GITHUB
+- Buat Organization dan repository privat/publik sesuai kebijakan penerbit.
+- Buat Teams: pemimpin-redaksi, editor, wartawan; undang tiap orang memakai akun masing-masing.
+- Atur branch protection/ruleset pada main: wajib Pull Request, minimal 1 approval dari editor/PEMRED, blokir force push dan penghapusan branch.
+- Aktifkan Editorial Workflow pada CMS. Periksa kompatibilitas backend CMS yang dipakai dan uji alur draf -> review -> publish sebelum dipakai produksi.
+- Isi repo pada admin/config.yml dengan OWNER/REPO yang benar.
+- Jangan berbagi akun GitHub, token, atau password. Aktifkan 2FA untuk semua anggota.
+Catatan: GitHub Team permission adalah kontrol akses repository; untuk hak editorial yang benar-benar berbeda, branch protection dan review wajib menjadi kontrol utama. Admin CMS tidak otomatis membuat role database terpisah.
+
+STATISTIK VIDEO
+Situs mendukung GoatCounter sebagai analitik ringan. Buat akun GoatCounter, lalu isi kolom analytics_code pada Pengaturan > Info Situs dengan subdomain yang diberikan (tanpa .goatcounter.com), commit dan deploy ulang. Statistik tayangan halaman dapat dilihat di dashboard GoatCounter. Ini bukan hitungan pemutaran video yang presisi; untuk event play/25%/50%/selesai diperlukan event tracking khusus yang harus diaktifkan dan diuji.
+
+LIVE STREAMING
+- Masukkan URL embed YouTube (https://www.youtube.com/embed/VIDEO_ID) atau format Facebook plugin video pada Pengaturan > Live Streaming.
+- Ubah status menjadi Tayang hanya saat siaran siap.
+- Jangan menyiarkan sidang tertutup, pemeriksaan saksi/korban/anak, dokumen rahasia, atau bagian persidangan yang dilarang. Pastikan izin pengadilan/penyelenggara dan aturan platform. Hentikan siaran bila ada keberatan sah atau risiko privasi.
+- Modul ini menampilkan embed dari penyedia streaming; tidak mengirim siaran langsung dari server Netlify.
+
+UPLOAD HP ANDROID & STUDIO
+- CMS /admin responsif; pilih Video Redaksi, kemudian pilih file dari Galeri/Files di Android dan thumbnail.
+- Studio Video Redaksi tersedia di /studio-video.html. Tool browser melakukan pemotongan rentang waktu dan kompresi WebM pada perangkat bila browser mendukung MediaRecorder/captureStream. Unduh hasilnya, lalu unggah melalui CMS.
+- Hasil kompresi perlu diuji di perangkat lain. Fitur ini bukan editor profesional dan dukungan codec bergantung pada browser.
